@@ -32,6 +32,21 @@
         <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .totla-cost{
+            display: flex;
+            align-items: center;
+        }
+
+        .calculate_option_noafterstyle{
+            width: 60%;
+            margin-top: -50px;
+        }
+
+        .calculate_option_noafterstyle::after{
+            height: 0;
+        }
+    </style>
 </head>
 
 <body class="js">
@@ -221,6 +236,22 @@
                         <form action="post">
                             <div class="single_calculate">
                                 <input type="text">
+                                <label>continent</label>
+                                <div class="calculate_option calculate_option_noafterstyle">
+                                    <select id="continent">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text">
+                                <label>country</label>
+                                <div class="calculate_option calculate_option_noafterstyle">
+                                    <select id="country">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="single_calculate">
+                                <input type="text">
                                 <label>height</label>
                                 <div class="calculate_option">
                                     <select>
@@ -253,16 +284,16 @@
                                 </div>
                             </div>
                             <div class="single_calculate">
-                                <input type="text">
+                                <input type="text" id="weight">
                                 <label>weight</label>
                                 <div class="calculate_option">
-                                    <select>
-                                        <option value="in">lbs</option>
+                                    <select id="weight-unit">
+                                        <option value="lbs">lbs</option>
                                         <option value="kg">kg</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="single_calculate">
+                            <!-- <div class="single_calculate">
                                 <label>location</label>
                                 <div class="calculate_option selectpadding">
                                     <select>
@@ -276,13 +307,12 @@
                                         <option value="#">cm</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="calculat-button">
+                            </div> -->
+                            <!-- <div class="calculat-button">
                                 <input type="submit" class="calulate" value="Calculate your cost now">
-                            </div>
+                            </div> -->
                             <div class="totla-cost">
-                                <h5>Total Cost: <span>$ 30</span></h5>
-                                <h5>Duration:: <span>3 days</span></h5>
+                                <h5>Total Cost: <span id="shipping">$0.00</span></h5>
                             </div>
                         </form>
                     </div>
@@ -608,6 +638,59 @@
     <script src="js/jquery.counterup.min.js"></script>
     <!--    main.js-->
     <script src="js/main.js"></script>
+    <script>
+        var continents = {
+        'Africa':  {price: 350, countries: ['Algeria','Angola','Benin','Botswana','Burkina Faso','Burundi','Cabo Verde','Cameroon','Central African Republic','Chad','Comoros','Democratic Republic of the Congo','Republic of the Congo','Cote d\'Ivoire','Djibouti','Egypt','Equatorial Guinea','Eritrea','Ethiopia','Gabon','Gambia','Ghana','Guinea','Guinea Bissau','Kenya','Lesotho','Liberia','Libya','Madagascar','Malawi','Mali','Mauritania','Mauritius','Morocco','Mozambique','Namibia','Niger','Nigeria','Rwanda','Sao Tome and Principe','Senegal','Seychelles','Sierra Leone','Somalia','South Africa','South Sudan','Sudan','Swaziland','Tanzania','Togo','Tunisia','Uganda','Zambia','Zimbabwe']},
+
+        'North America': {price: 300, countries: ['Antigua and Barbuda','Bahamas','Barbados','Belize','Canada','Costa Rica','Cuba','Dominica','Dominican Republic','El Salvador','Grenada','Guatemala','Haiti','Honduras','Jamaica','Mexico','Nicaragua','Panama','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Trinidad and Tobago','United States of America']},
+
+        'South America': {price: 350, countries: ['Argentina', 'Bolivia','Brazil','Chile','Colombia','Ecuador','Guyana','Paraguay','Peru','Suriname','Uruguay','Venezuela']},
+        
+        'Europe': {price: 200, countries: ['Albania','Andorra','Armenia','Austria','Azerbaijan','Belarus','Belgium','Bosnia and Herzegovina','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Georgia','Germany','Greece','Iceland','Ireland','Italy','Kazakhstan','Kosovo','Latvia','Liechtenstein','Lithuania','Luxembourg','Macedonia','Malta','Moldova','Monaco','Montenegro','Netherlands','Norway','Poland','Portugal','Romania','Russia','San Marino','Serbia','Slovakia','Slovenia','Spain','Sweden','Switzerland','Turkey','Ukraine','United Kingdom','Vatican City']},
+        
+        'Asia': {price: 200, countries: ['Armenia','Azerbaijan','Bahrain','Bangladesh','Bhutan','Brunei', 'Cambodia','China','Cyprus','Georgia','India','Indonesia','Iran','Iraq','Israel', 'Japan','Jordan','Kazakhstan','Kuwait','Kyrgyzstan','Laos','Lebanon','Malaysia','Maldives','Mongolia','Myanmar','Nepal','North Korea','Oman','Pakistan','Palestine','Philippines','Qatar','Russia','Saudi Arabia','Singapore','South Korea','Sri Lanka','Syria','Taiwan','Tajikistan','Thailand','Timor Leste','Turkey','Turkmenistan','United Arab Emirates','Uzbekistan','Vietnam','Yemen']},
+        
+        'Australia': {price: 400, countries: ['Australia']}
+        };
+
+        $(document).ready(function(){
+            // Continent & Country
+            var continentSelect = $('#continent');
+            var changeCountries = function(continent){
+                var countrySelect = $('#country').html('');
+                var countries = continents[continent].countries;
+                for(var j = 0; j < countries.length; j++){
+                    countrySelect.append('<option>' + countries[j] + '</option');
+                }
+            };
+            var weightInput = $('#weight');
+            var weightUnitSelect = $('#weight-unit');
+            var poundToKilograms = 0.453592;
+            var calculateWeight = function(){
+                var weight = weightInput.val();
+                if(/^\d+$/.test(weight)){
+                    var continent = continentSelect.val();
+                    var priceInPounds = continents[continent].price;
+                    var price = weightUnitSelect.val() === 'lbs' ? priceInPounds : (weight / poundToKilograms) * priceInPounds;
+                    $('#shipping').text('$' + (weight * price));
+                }else{
+                    weightInput.val(parseFloat(weightInput.val()) || 0);
+                    console.log('You can only enter a number for the weight');
+                }
+            }
+
+            for(var continent in continents){
+                continentSelect.append('<option>' + continent + '</option');
+            }
+
+            continentSelect.change(function(e){
+                changeCountries(e.target.value);
+                calculateWeight();
+            }).change();
+            weightInput.keyup(calculateWeight);
+            weightUnitSelect.change(calculateWeight);
+        });
+    </script>
 </body>
 
 </html>
