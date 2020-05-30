@@ -1,10 +1,10 @@
 <?php
 
-    $db = mysqli_connect('localhost', 'root', '', 'baysix_swiftlogistics');
+    require('database.php');
     
-    if(isset($_POST['tracking_number']) && !empty($_POST['tracking_number'])){
+    if(isset($_POST['tracking_id']) && !empty($_POST['tracking_id'])){
 
-        $tracking_number = $_POST['tracking_number'];
+        $tracking_id = $_POST['tracking_id'];
 
         $sql = "SELECT  `location`, `comment`, `destination`, `origin`, 
                         `shipping`.`datetime` AS shipping_date,
@@ -14,11 +14,11 @@
                             ON `shipping`.`shipping_id` = `shipping_log`.`shipping_id`
                             WHERE 
                                 (
-                                    `shipping`.`tracking_number` = '$tracking_number'
+                                    `shipping`.`tracking_id` = '$tracking_id'
                                 )
+                            ORDER BY `shipping_log`.`datetime` DESC
                                 ";
         $query = mysqli_query($db, $sql);
-        echo mysqli_error($db);
         $num = mysqli_num_rows($query);
         $output = array();
 
@@ -28,11 +28,11 @@
             }
         }
         
-        echo '{"success": true, "message": "Tracking number found.", "data": '. json_encode($output) .'}';
+        echo '{"success": true, "message": "Tracking ID found.", "data": '. json_encode($output) .'}';
 
     }else{
         
-        echo '{"success": false, "message": "POST parameter: tracking_number is missing."}';
+        echo '{"success": false, "message": "POST parameter: tracking_id is missing."}';
 
     }
     

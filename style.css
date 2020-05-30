@@ -26,7 +26,7 @@
 }
 
 .header_area:before {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     content: "";
     height: 100%;
     left: 0;
@@ -199,7 +199,7 @@ nav.navbar {
 */
 
 .dropdownMenu {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     left: 0;
     min-width: 220px;
     opacity: 0;
@@ -343,7 +343,7 @@ nav.navbar {
 }
 
 .about_single_item_content h4 {
-    color: #22313f;
+    color: skyblue;
     margin-bottom: 20px;
     font-family: 'montserratbold';
 }
@@ -440,7 +440,7 @@ nav.navbar {
 }
 
 .single_calculate label {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     color: #fff;
     display: inline-block;
     float: left;
@@ -464,7 +464,7 @@ nav.navbar {
     -webkit-appearance: none;
     background: transparent none repeat scroll 0 0;
     border: none;
-    color: #22313f;
+    color: skyblue;
     display: inline-block;
     font-family: "montserratsemi_bold";
     height: 100%;
@@ -557,7 +557,7 @@ nav.navbar {
 }
 
 .totla-cost {
-    border: 3px solid #22313f;
+    border: 3px solid skyblue;
     height: 80px;
     margin-left: 10px;
     margin-top: 40px;
@@ -566,7 +566,7 @@ nav.navbar {
     padding: 10px 24px;
     width: calc(100% - 20px);
     font-family: "montserratbold";
-    color: #22313f
+    color: skyblue
 }
 
 .totla-cost > h5 {
@@ -586,7 +586,7 @@ nav.navbar {
 /*start client areac css*/
 
 .client-area {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     color: #fff;
     padding: 100px 0;
 }
@@ -674,7 +674,7 @@ nav.navbar {
 }
 
 h6.price-title {
-    color: #22313f;
+    color: skyblue;
     font-size: 20px;
     margin-bottom: 25px;
     text-transform: uppercase;
@@ -974,7 +974,7 @@ video#bgvid {
 }
 
 .footer-area {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     padding: 70px 0;
 }
 
@@ -1128,7 +1128,7 @@ video#bgvid {
 /*start about us page css*/
 
 .about-us .logo_menu {
-    background: #22313f none repeat scroll 0 0;
+    background: skyblue none repeat scroll 0 0;
     top: 0;
 }
 
