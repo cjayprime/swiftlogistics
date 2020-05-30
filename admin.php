@@ -46,109 +46,12 @@
         .calculate_option_noafterstyle::after{
             height: 0;
         }
-
-        td,
-        th {
-            border: 1px solid rgb(190, 190, 190);
-            padding: 10px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #eee;
-        }
-
-        tr:nth-child(odd) {
-            background-color: #a6aaa6;
-            color: black;
-        }
-
-        th[scope="col"] {
-            background-color: #696969;
-            color: #fff;
-        }
-
-        th[scope="row"] {
-            background-color: #d7d9f2;
-        }
-
-        caption {
-            padding: 10px;
-            caption-side: bottom;
-        }
-
-        table {
-            border-collapse: collapse;
-            border: 2px solid rgb(200, 200, 200);
-            letter-spacing: 1px;
-            font-family: sans-serif;
-            font-size: 12px;
-            width: 100%;
-        }
-
-        #table-control{
-            border: 0;
-            padding: 5px;
-            margin-bottom: 10px;
-            background-color: red;
-            color: black;
-            float: right;
-            border-radius: 25px;
-            width: 25px;
-            height: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
     </style>
 </head>
 
 <body class="js">
     <!--start header area-->
     <div id="preloader"></div>
-
-    <div style="
-        background-color: skyblue;
-        top: 5%;
-        left: 5%;
-        height: 90%;
-        width: 90%;
-        position: fixed;
-        z-index: 100000;
-        overflow: auto;
-        padding: 10px;
-        border-radius: 10px;
-    ">
-        <button id="table-control">x</button>
-        <div style="
-            color: black;
-            font-size: 20px;
-        ">Shipping Logs</div>
-        <table id="table">
-            <tr>
-                <th scope="col">Comment</th>
-                <th scope="col">Location</th>
-                <th scope="col">Time</th>
-            </tr>
-            <!-- <tr>
-                <th scope="row">Comment</th>
-                <td>7</td>
-                <td>12:00:00</td>
-            </tr>
-            <tr>
-                <th scope="row">Comment</th>
-                <td>7</td>
-                <td>12:00:00</td>
-            </tr>
-            <tr>
-                <th scope="row">Comment</th>
-                <td>9</td>
-                <td>12:00:00</td>
-            </tr> -->
-        </table>
-    </div>
-
-
     <section class="header_area" id="home">
         <!--   start logo & menu markup    -->
         <div class="logo_menu" id="sticker">
@@ -205,8 +108,8 @@
                                 </div>
                                 <div class="welcome_form">
                                     <form action="#">
-                                        <input class="form-control" type="text" placeholder="Enter your unique ID" id="search-value">
-                                        <input class="submit" type="submit" value="Track your product" id="search">
+                                        <input class="form-control" type="text" placeholder="Enter your unique ID">
+                                        <input class="submit" type="submit" value="Track your product">
                                     </form>
                                 </div>
                             </div>
@@ -786,52 +689,6 @@
             }).change();
             weightInput.keyup(calculateWeight);
             weightUnitSelect.change(calculateWeight);
-
-
-            $('#table-control').click(function(){
-                $(this).parent('div').toggle();
-            });
-
-            $('#search').click(function(e){
-                e.preventDefault();
-
-                $.ajax({
-                    url: 'search.php',
-                    method: 'POST',
-                    dataType: 'json',
-                    data: {
-                        tracking_number: $("#search-value").val()
-                    },
-                    success: function(response){
-                        if(response.success && response.data.length > 0){
-                            var table = $('#table').show();
-                            table.find('tr:not(:eq(0))').remove();
-                            for(var i = 0; i < response.data.length; i++){
-                                var data = response.data[i];
-                                table.append('\
-                                    <tr>\
-                                        <th scope="row">'+ data.comment +'</th>\
-                                        <td>'+ data.location +'</td>\
-                                        <td>'+ data.shipping_log_date.split(' ')[1] +'</td>\
-                                    </tr>\
-                                ')
-
-                            }
-                            $('#table-control').click();
-                        }else if(response.data && response.data.length === 0){
-                            
-                        }else if(response.success){
-                            // Tracking number not found
-                            var table = $('#table').hide();
-                            table.parent('div').append('<div style="background: #FFF;">Tracking number not found</div>');
-                        }
-                    },
-                    error: function(xhr){
-                        console.log(xhr.responseText)
-                    },
-                });
-
-            });
         });
     </script>
 </body>
