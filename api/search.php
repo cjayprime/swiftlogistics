@@ -6,7 +6,7 @@
 
         $tracking_id = $_POST['tracking_id'];
 
-        $sql = "SELECT  `location`, `comment`, `destination`, `origin`, 
+        $sql = "SELECT  `location`, `comment`, `destination`, `origin`, `shipping_log_id`,
                         `shipping`.`datetime` AS shipping_date,
                         `shipping_log`.`datetime` AS shipping_log_date
                         FROM 
@@ -15,6 +15,8 @@
                             WHERE 
                                 (
                                     `shipping`.`tracking_id` = '$tracking_id'
+                                    AND
+                                    `shipping_log`.`status` = '1'
                                 )
                             ORDER BY `shipping_log`.`datetime` DESC
                                 ";

@@ -76,6 +76,7 @@ $(document).ready(function(){
                     var table = $('#table').show();
                     $('#tracking-error').remove();
                     table.find('tr:not(:eq(0))').remove();
+
                     for(var i = 0; i < response.data.length; i++){
                         var data = response.data[i];
                         var row = '';
@@ -85,7 +86,7 @@ $(document).ready(function(){
                                     <th scope="row">'+ data.comment +'</th>\
                                     <td>'+ data.location +'</td>\
                                     <td>'+ data.shipping_log_date.split(' ')[1] +'</td>\
-                                    <td><div style="display: flex; justify-content: center;"><button style="padding: 5px;">Delete</button></div></td>\
+                                    <td><div style="display: flex; justify-content: center;"><button data-id="'+ data.shipping_log_id +'" class="delete-log" style="padding: 5px;">Delete</button></div></td>\
                                 </tr>\
                             ';
                         }else{
@@ -100,6 +101,30 @@ $(document).ready(function(){
                         table.append(row);
                     }
                     $('#table-control').click();
+
+                    $('.delete-log').click(function(){
+                        var self = $(this);
+                        var text = self.text();
+                        var id = $(this).data('id');
+
+                        self.html('<img src="img/spinner.gif" width="25" height="25" />');
+                        $.ajax({
+                            url: 'api/delete.php',
+                            method: 'POST',
+                            dataType: 'json',
+                            data: {shipping_log_id: id},
+                            complete: function(){
+                                self.html(text.substr(0, 1).toUpperCase() + text.substr(1));
+                            },
+                            success: function(response){
+                                alert(response.message);
+                            },
+                            error: function(xhr){
+                                console.log(xhr.responseText)
+                                alert('An error occured. Try again.')
+                            },
+                        });
+                    });
                 }else{
 
                     var text = 'An error occcured';

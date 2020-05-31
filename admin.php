@@ -1,3 +1,12 @@
+<?php
+
+if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
+    header('Location: index.php');
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -159,21 +168,21 @@
             <div class="sub-container">
                 <div style="margin-top: 50px; width: 100%; margin-left: 0">
                     <span style="color: white; font-weight: bold;">Add a shipping log to a shipping entry using it's tracking ID</span>
-                    <input class="input" type="text" placeholder="Tracking ID" />
-                    <input class="input" type="text" placeholder="Location" />
-                    <input class="input" type="text" placeholder="Comment" />
-                    <input class="input" type="date" value="" />
+                    <input class="input" type="text" placeholder="Tracking ID" id="add-trackingID" />
+                    <input class="input" type="text" placeholder="Location" id="add-location" />
+                    <input class="input" type="text" placeholder="Comment"  id="add-comment"/>
+                    <input class="input" type="date" value="" id="add-date" />
                 </div>
-                <input class="input button" style="margin-left: 0;" type="button" value="Add" />
+                <input class="input button" style="margin-left: 0;" type="button" value="Add" id="add-entry" />
                 
                 <div style="margin-top: 150px; width: 100%; margin-left: 0">
                     <span style="color: white; font-weight: bold;">Edit a shipping entry using it's tracking ID</span>
-                    <input class="input" type="text" placeholder="Tracking ID" />
-                    <input class="input" type="text" placeholder="Origin: Accra, Ghana" />
-                    <input class="input" type="text" placeholder="Destination: Lagos, Nigeria" />
-                    <input class="input" type="date" value="" />
+                    <input class="input" type="text" placeholder="Tracking ID" id="edit-trackingID" />
+                    <input class="input" type="text" placeholder="Origin: Accra, Ghana" id="edit-origin" />
+                    <input class="input" type="text" placeholder="Destination: Lagos, Nigeria" id="edit-destination" />
+                    <input class="input" type="date" value="" id="edit-date" />
                 </div>
-                <input class="input button" style="margin-left: 0;" type="button" value="Edit" />
+                <input class="input button" style="margin-left: 0;" type="button" value="Edit" id="edit-entry" />
             </div>
         </div>
 
@@ -196,37 +205,73 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <script src="js/swiftlogistics.js"></script>
         <script>
-            $('#create-entry').click(function(){
-
-                console.log('Works')
+            $('#create-entry, #add-entry, #edit-entry').click(function(){
 
                 var self = $(this);
+                var type = '';
+                var data = {};
+                var url = '';
+
+                if(self.is($('#create-entry'))){
+                    type = 'create';
+                    url = 'create.php';
+                    var origin = $('#create-origin').val();
+                    var destination = $('#create-destination').val();
+                    var datetime = $('#create-date').val();
+                    data = {
+                        origin: origin,
+                        destination: destination,
+                        datetime: datetime
+                    };
+                }else if(self.is($('#add-entry'))){
+                    type = 'add';
+                    url = 'add.php';
+                    var trackingID = $('#add-trackingID').val();
+                    var location = $('#add-location').val();
+                    var comment = $('#add-comment').val();
+                    var datetime = $('#add-date').val();
+                    data = {
+                        tracking_id: trackingID,
+                        location: location,
+                        comment: comment,
+                        datetime: datetime,
+                    }
+                }else if(self.is($('#edit-entry'))){
+                    type = 'add';
+                    url = 'edit.php';
+                    var trackingID = $('#edit-trackingID').val();
+                    var origin = $('#edit-origin').val();
+                    var destination = $('#edit-destination').val();
+                    var datetime = $('#edit-date').val();
+                    data = {
+                        tracking_id: trackingID,
+                        origin: origin,
+                        destination: destination,
+                        datetime: datetime,
+                    }
+                }
+
                 self.html('<img src="img/spinner.gif" width="25" height="25" />');
-
-                var origin = $('#create-origin').val();
-                var destination = $('#create-destination').val();
-                var datetime = $('#create-date').val();
-
-                console.log(origin, destination, datetime)
-
                 $('#create-trackingnumber').css({padding: 0}).html('');
 
-                if(origin && destination && datetime){
+                console.log(data)
+
+                if(
+                    // origin && destination && datetime && 
+                    Object.keys(data).filter(dataKey => !!data[dataKey]).length
+                ){
                     $.ajax({
-                        url: 'api/create.php',
+                        url: 'api/' + url,
                         method: 'POST',
                         dataType: 'json',
-                        data: {
-                            origin: origin,
-                            destination: destination,
-                            datetime: datetime
-                        },
+                        data: data,
                         complete: function(){
-                            self.html('Create');
+                            self.html(type.substr(0, 1).toUpperCase() + type.substr(1));
                         },
                         success: function(response){
-                            console.log(response, response.success , response.data , response.data.tracking_id)
+                            console.log(response)
                             if(response.success && response.data && response.data.tracking_id){
+                                if(type === 'create')
                                 $('#create-trackingnumber').css({padding: 5}).html('Tracking ID: ' + response.data.tracking_id);
                             }
                             alert(response.message);
@@ -238,10 +283,10 @@
                     });
                 }else{
                     self.html('Create');
-                    alert('Enter the Origin, Destination and Date.');
+                    alert('Enter the ' + Object.keys(data).join(', '));
                 }
 
-            })//.click();
+            });
 
         </script>
     </body>
