@@ -6,7 +6,7 @@
 
         $tracking_id = $_POST['tracking_id'];
 
-        $sql = "SELECT  `location`, `comment`, `destination`, `origin`, `shipping_log_id`,
+        $sql = "SELECT  `sender`, `receiver`, `location`, `comment`, `destination`, `origin`, `shipping_log_id`,
                         `shipping`.`datetime` AS shipping_date,
                         `shipping_log`.`datetime` AS shipping_log_date
                         FROM 

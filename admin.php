@@ -1,7 +1,7 @@
 <?php
 
 if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
-    header('Location: index.php');
+    header('Location: index.html');
     exit;
 }
 
@@ -147,7 +147,10 @@ if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
                     <span style="color: white; font-weight: bold;">Create a new shipping entry</span>
                     <input class="input" type="text" placeholder="Origin: Accra, Ghana" id="create-origin" />
                     <input class="input" type="text" placeholder="Destination: Lagos, Nigeria" id="create-destination" />
+                    <input class="input" type="text" placeholder="Sender: Mr John Doe" id="create-sender" />
+                    <input class="input" type="text" placeholder="Receiver: Mrs Jane Doe" id="create-receiver" />
                     <input class="input" type="date" value="" id="create-date" />
+                    <input class="input" type="time" value="" id="create-time" />
                     <div id="create-trackingnumber"></div>
                     <button class="input button" style="margin-left: 0px;" type="button" id="create-entry">Create</button>
                 </div>
@@ -180,7 +183,10 @@ if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
                     <input class="input" type="text" placeholder="Tracking ID" id="edit-trackingID" />
                     <input class="input" type="text" placeholder="Origin: Accra, Ghana" id="edit-origin" />
                     <input class="input" type="text" placeholder="Destination: Lagos, Nigeria" id="edit-destination" />
+                    <input class="input" type="text" placeholder="Sender: Mr John Doe" id="edit-sender" />
+                    <input class="input" type="text" placeholder="Receiver: Mrs Jane Doe" id="edit-receiver" />
                     <input class="input" type="date" value="" id="edit-date" />
+                    <input class="input" type="time" value="" id="edit-time" />
                 </div>
                 <input class="input button" style="margin-left: 0;" type="button" value="Edit" id="edit-entry" />
             </div>
@@ -217,11 +223,17 @@ if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
                     url = 'create.php';
                     var origin = $('#create-origin').val();
                     var destination = $('#create-destination').val();
-                    var datetime = $('#create-date').val();
+                    var sender = $('#create-sender').val();
+                    var receiver = $('#create-receiver').val();
+                    var date = $('#create-date').val();
+                    var time = $('#create-time').val();
+                    console.log('Time: ', time)
                     data = {
                         origin: origin,
                         destination: destination,
-                        datetime: datetime
+                        sender: receiver,
+                        receiver: receiver,
+                        datetime: date && time ? date + ' ' + time : ''
                     };
                 }else if(self.is($('#add-entry'))){
                     type = 'add';
@@ -242,19 +254,22 @@ if(!isset($_GET['token']) || $_GET['token'] !== 'caquwiIjw34iw19dked99jnnksws'){
                     var trackingID = $('#edit-trackingID').val();
                     var origin = $('#edit-origin').val();
                     var destination = $('#edit-destination').val();
-                    var datetime = $('#edit-date').val();
+                    var sender = $('#edit-sender').val();
+                    var receiver = $('#edit-receiver').val();
+                    var date = $('#edit-date').val();
+                    var time = $('#edit-time').val();
                     data = {
                         tracking_id: trackingID,
                         origin: origin,
                         destination: destination,
-                        datetime: datetime,
-                    }
+                        sender: receiver,
+                        receiver: receiver,
+                        datetime: date && time ? date + ' ' + time : ''
+                    };
                 }
 
                 self.html('<img src="img/spinner.gif" width="25" height="25" />');
                 $('#create-trackingnumber').css({padding: 0}).html('');
-
-                console.log(data)
 
                 if(
                     // origin && destination && datetime && 

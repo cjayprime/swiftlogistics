@@ -17,7 +17,7 @@
         $sql = "INSERT INTO shipping_log(`shipping_id`, `location`, `comment`, `status`, `datetime`) VALUES((SELECT shipping_id FROM shipping WHERE `tracking_id` = '$tracking_id' LIMIT 1), '$location', '$comment', '1', '$datetime')";
         $query = mysqli_query($db, $sql);
         $num = mysqli_affected_rows($db);
-        echo mysqli_error($db).$num;
+        echo mysqli_error($db);
 
         $message = "";
         $output = array();

@@ -21,11 +21,12 @@
 /*start header area css*/
 
 .header_area {
-    background: url(img/version-1.jpg) no-repeat center center / cover;
+    background: url('img/calculate.jpg') no-repeat center center / cover;
     position: relative;
 }
 
 .header_area:before {
+    /* background-image: url('img/calculate.jpg'); */
     background: skyblue none repeat scroll 0 0;
     content: "";
     height: 100%;
@@ -251,14 +252,14 @@ nav.navbar {
 }
 
 .welcome_text:before {
-    background: #f9bf3b none repeat scroll 0 0;
+    /* background: #f9bf3b none repeat scroll 0 0;
     content: "";
     height: 2px;
     left: 50%;
     margin-left: -35px;
     position: absolute;
     top: -20%;
-    width: 70px;
+    width: 70px; */
 }
 
 .welcome_form {
