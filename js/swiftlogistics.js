@@ -33,7 +33,7 @@ $(document).ready(function(){
             var price = weightUnitSelect.val() === 'lbs' ? priceInPounds : (weight / poundToKilograms) * priceInPounds;
             $('#shipping').text('$' + (weight * price));
         }else{
-            weightInput.val(parseFloat(weightInput.val()) || 0);
+            weightInput.val(parseFloat(weightInput.val()) || '');
             console.log('You can only enter a number for the weight');
         }
     }
