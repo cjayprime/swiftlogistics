@@ -1344,7 +1344,7 @@ ul.breadcrumbs li {
     width: 100%;
     height: 100%;
     overflow: visible;
-    background: #333 url('http://files.mimoymima.com/images/loading.gif') no-repeat center center;
+    background: #333 url('https://files.mimoymima.com/images/loading.gif') no-repeat center center;
 }
 
 .pricing-area .single-pricing-table.slick-slide:focus, .single_calculate input:focus, .single_calculate select:focus {
